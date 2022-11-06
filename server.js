@@ -1,11 +1,25 @@
 require("dotenv").config()
 const multer = require("multer")
+const path = require("path");
 
 const express = require("express")
 const app = express()
 app.use(express.urlencoded({ extended: true }))
 
-const upload = multer({ dest: "uploads" })
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/')
+  },
+
+  filename: function (req, file, cb) {
+    cb(
+      null,
+      file.fieldname + '-' + Date.now() + path.extname(file.originalname),
+    )
+  },
+})
+
+const upload = multer({ storage: storage })
 
 app.set("view engine", "ejs")
 
@@ -13,12 +27,8 @@ app.get("/", (req, res) => {
   res.render("index")
 })
 
-let extension;
 
 app.post("/upload", upload.single("file"), async (req, res) => {
-
-  let extArray = req.file.mimetype.split("/");
-  extension = extArray[extArray.length - 1];
   
   res.render("index", { fileLink: `${req.headers.origin}/file/${req.file.filename}` })
 })
@@ -32,7 +42,7 @@ async function handleDownload(req, res) {
   // console.log("test")
   // console.log(extension)
 
-  res.download(__dirname + `/uploads/${req.params.id}`, req.params.id + `.${extension}`)
+  res.download(__dirname + `/uploads/${req.params.id}`, req.params.id)
 
 }
 
