@@ -1,0 +1,43 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+body{
+    border: 5px solid green;
+    height: 100vh;
+    background: grey;
+}
+
+.wrapper{
+    border: 2px solid yellow;
+    height: 100%;
+}
+
+#form{
+    border: 8px solid black;
+    height: 100%;
+    width: 100%;
+    display: grid;
+    justify-content: center;
+    grid-template-rows: 6fr 1fr;
+}
+
+#file{
+    border: 1px solid black;
+    /* position: relative; */
+    /* position: relative; */
+    /* width: 80vw; */
+    width: 30rem;
+    margin-top: 3rem;
+    cursor: pointer;
+}
+
+
+#submit{
+    border: 2px solid blue;
+    height: 3rem;
+    width: 30rem;
+    justify-self: center;
+    border-radius: 10rem;
+}
