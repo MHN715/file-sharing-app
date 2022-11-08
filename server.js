@@ -1,9 +1,11 @@
 require("dotenv").config();
 const path = require("path");
+const fs = require("fs");
 const fileUpload = require("express-fileupload"); // Express framework middleware
 const express = require("express");
 
 const app = express();
+var zip = require("express-zip");
 app.use(express.urlencoded({ extended: true }));
 app.use(
   fileUpload({
@@ -14,8 +16,20 @@ app.use(
 app.set("view engine", "ejs");
 
 app.get("/", (req, res) => {
+  setTimeout(removeFolder, 3600000);
   res.render("index");
 });
+
+// remove uploads folder on timeout (1 hour)
+function removeFolder() {
+  const dir = path.join(__dirname, "uploads");
+  fs.rmdir(dir, { recursive: true }, (err) => {
+    if (err) {
+      throw err;
+    }
+    console.log(`"${dir}" is deleted!`);
+  });
+}
 
 app.use(express.static(__dirname + "/public"));
 
@@ -39,24 +53,59 @@ app.post("/uploads", (req, res) => {
 
   const file = req.files.file;
   console.log("File uploaded:", file);
+  console.log(file.length);
 
-  const uploaded_files_folder =
-    __dirname +
-    "/uploads/" +
-    `/${randomizeString("abcdefg1234567")}/` +
-    file.name;
+  // file.forEach((item) => {
+  //   console.log(item);
+  // });
 
-  file.mv(uploaded_files_folder, (err) => {
-    if (err) {
-      return res.status(500).send(err);
-    }
-    return res.render("index", {
-      fileLink: `${req.headers.origin}/uploads/${currentRandomFolderName}/${file.name}`,
+  if (file.length === undefined) {
+    const uploaded_files_folder =
+      __dirname +
+      "/uploads/" +
+      `/${randomizeString("abcdefg1234567")}/` +
+      file.name;
+
+    file.mv(uploaded_files_folder, (err) => {
+      if (err) {
+        return res.status(500).send(err);
+      }
+      return res.render("index", {
+        fileLink: `${req.headers.origin}/uploads/${currentRandomFolderName}/${file.name}`,
+      });
     });
-  });
+  }
+  // for multiple files, not working yet
+  //  else {
+  //   const randomFolderName = randomizeString("abcdefg1234567") + "-multiple";
+  //   file.forEach((item) => {
+  //     item.mv(
+  //       __dirname + "/uploads/" + `/${randomFolderName}/` + item.name,
+  //       (err) => {
+  //         if (err) {
+  //           return res.status(500).send(err);
+  //         }
+  //       }
+  //     );
+  //   });
+  //   return res.render("index", {
+  //     fileLink: `${req.headers.origin}/uploads/${randomFolderName}/`,
+  //   });
+  // }
 });
 
 app.route("/uploads/:folder/:file").get(handleDownload).post(handleDownload);
+
+// app
+//   .route("/uploads/:folder")
+//   .get(handleDownloadFolder)
+//   .post(handleDownloadFolder);
+
+// async function handleDownloadFolder(req, res) {
+//   console.log(req.params);
+//   // download zipped folder of files  (express-zip)
+//   res.zip([{ path: `./uploads/${req.params.folder}`, name: "files" }]);
+// }
 
 async function handleDownload(req, res) {
   console.log(
