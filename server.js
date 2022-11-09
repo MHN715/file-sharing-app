@@ -31,7 +31,8 @@ function removeFolder() {
   });
 }
 
-app.use(express.static(__dirname + "/public"));
+app.use(express.static(__dirname + "/public")); // for style.css
+app.use("/public", express.static("public")); // for script.js
 
 let currentRandomFolderName;
 
@@ -53,7 +54,7 @@ app.post("/uploads", (req, res) => {
 
   const file = req.files.file;
   console.log("File uploaded:", file);
-  console.log(file.length);
+  // console.log(file.length);
 
   // file.forEach((item) => {
   //   console.log(item);

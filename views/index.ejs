@@ -9,32 +9,56 @@
   </head>
   <body>
     <div class="wrapper">
-      <% if (locals.fileLink != null) { %>
-      <div style="margin-bottom: 1rem">
-        Your file is uploaded
-        <a href="<%= locals.fileLink %>"><%= locals.fileLink %></a>
+      <h1 class="heading">Upload Files</h1>
+      <div class="links-result">
+        <!-- <% if (locals.fileLink != null) { %>
+        <div class="testClass" style="margin-bottom: 1rem">
+          Your file is uploaded
+          <a href="<%= locals.fileLink %>"><%= locals.fileLink %></a>
+        </div>
+
+        <% } %> -->
+
+        <div style="display: none" class="testClass">
+          <%= locals.fileLink %>
+        </div>
+
+        <div class="links-results">
+          <div>testtest</div>
+          <div>testtest</div>
+          <div>testtest</div>
+          <div>testtest</div>
+        </div>
       </div>
-      <% } %>
       <form
         id="form"
         action="/uploads"
         method="post"
         enctype="multipart/form-data"
+        type="submit"
+        class="file-input"
       >
-        <!-- <label for="file">File:</label> -->
-        <input type="file" id="file" name="file" required />
-        <button id="submit" style="grid-column: span 2" type="submit">
+        <label class="file-label" for="file"
+          ><div class="label-text-wrapper">
+            Drag file here or press to upload
+          </div></label
+        >
+        <div class="input-label-wrapper">
+          <input
+            type="file"
+            id="file"
+            name="file"
+            required
+            class="file-input"
+          />
+        </div>
+        <!-- <button id="submit" style="grid-column: span 2" type="submit">
           Share
-        </button>
+        </button> -->
       </form>
+      <!-- <section class="progress-area"></section>
+      <section class="uploaded-area"></section> -->
     </div>
-    <script>
-      const xhr = new XMLHttpRequest();
-      console.log(xhr);
-      xhr.addEventListener("progress", (event) => {
-        console.log(e);
-      });
-    </script>
+    <script type="module" src="../public/script.js"></script>
   </body>
 </html>
-s
