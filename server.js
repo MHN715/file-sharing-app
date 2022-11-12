@@ -77,22 +77,22 @@ app.post("/uploads", (req, res) => {
     });
   }
   // for multiple files, not working yet
-  //  else {
-  //   const randomFolderName = randomizeString("abcdefg1234567") + "-multiple";
-  //   file.forEach((item) => {
-  //     item.mv(
-  //       __dirname + "/uploads/" + `/${randomFolderName}/` + item.name,
-  //       (err) => {
-  //         if (err) {
-  //           return res.status(500).send(err);
-  //         }
-  //       }
-  //     );
-  //   });
-  //   return res.render("index", {
-  //     fileLink: `${req.headers.origin}/uploads/${randomFolderName}/`,
-  //   });
-  // }
+  else {
+    const randomFolderName = randomizeString("abcdefg1234567") + "-multiple";
+    file.forEach((item) => {
+      item.mv(
+        __dirname + "/uploads/" + `/${randomFolderName}/` + item.name,
+        (err) => {
+          if (err) {
+            return res.status(500).send(err);
+          }
+        }
+      );
+    });
+    return res.render("index", {
+      fileLink: `${req.headers.origin}/uploads/${randomFolderName}`,
+    });
+  }
 });
 
 app.route("/uploads/:folder/:file").get(handleDownload).post(handleDownload);
