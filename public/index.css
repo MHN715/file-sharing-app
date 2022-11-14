@@ -1,3 +1,42 @@
+@-webkit-keyframes bounce {
+  0% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-4px);
+  }
+  60% {
+    transform: translateY(2px);
+  }
+  80% {
+    transform: translateY(-1px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+@keyframes bounce {
+  0% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-4px);
+  }
+  60% {
+    transform: translateY(2px);
+  }
+  80% {
+    transform: translateY(-1px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+.copy-paste-anim {
+  -webkit-animation: bounce 0.3s;
+          animation: bounce 0.3s;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -36,6 +75,24 @@ body {
 }
 .wrapper .links-result .generated-link a {
   font-size: 1.2rem;
+  width: 30rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.wrapper .links-result .generated-link .svg-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  top: 2.7rem;
+}
+.wrapper .links-result .generated-link .svg-wrapper .copy-paste-svg {
+  position: absolute;
+}
+.wrapper .links-result .generated-link .svg-wrapper .copied-to-clipboard {
+  position: absolute;
+  top: 3rem;
 }
 
 .heading {

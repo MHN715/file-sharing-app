@@ -1,8 +1,14 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const copyBtn = document.getElementById("copy-text-btn");
+  // const copyBtn = document.getElementById("copy-text-btn");
   const textToCopy = document.querySelector(".generated-atag");
-  copyToClipBoard(copyBtn, textToCopy);
+  const copyPasteSvg = document.querySelector(".copy-paste-svg");
+  const copyToClipBoardText = document.querySelector(".copied-to-clipboard");
+
+  copyToClipBoard(copyPasteSvg, textToCopy, copyToClipBoardText);
   submitWhenFileSelected();
+  copyPasteSvg.addEventListener("click", (e) =>
+    addAnimClassToElement(e.target, "copy-paste-anim")
+  );
 });
 
 function submitWhenFileSelected() {
@@ -11,19 +17,26 @@ function submitWhenFileSelected() {
   };
 }
 
-function copyToClipBoard(copyBtn, textToCopy) {
+function copyToClipBoard(copyPasteSvg, textToCopy, copyToClipBoardText) {
   if (!textToCopy) return;
-  copyBtn.addEventListener("click", async (event) => {
+  copyPasteSvg.addEventListener("click", async (event) => {
     if (!navigator.clipboard) {
-      // Clipboard API not available
+      console.log("Clipboard API not available");
       return;
     }
     const text = textToCopy?.textContent;
     try {
       await navigator.clipboard.writeText(text);
-      event.target.textContent = "Copied to clipboard";
+      copyToClipBoardText.textContent = "Copied to clipboard";
     } catch (err) {
       console.error("Failed to copy!", err);
     }
+  });
+}
+
+function addAnimClassToElement(element, animClass) {
+  element.classList.add(animClass);
+  element.addEventListener("animationend", () => {
+    element.classList.remove(animClass);
   });
 }

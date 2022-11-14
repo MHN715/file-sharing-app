@@ -9,7 +9,7 @@
   </head>
   <body>
     <div class="wrapper">
-      <h1 class="heading">Upload Files</h1>
+      <h1 class="heading">Upload Files(s)</h1>
       <div class="links-result">
         <% if (locals.fileLink != null) { %>
         <div class="generated-link" style="margin-bottom: 1rem">
@@ -17,7 +17,10 @@
           <a class="generated-atag" href="<%= locals.fileLink %>"
             ><%= locals.fileLink %></a
           >
-          <button id="copy-text-btn">Copy</button>
+          <div class="svg-wrapper">
+            <%- include ('../public/icons/copypastesvg.svg') %>
+            <span class="copied-to-clipboard"></span>
+          </div>
         </div>
 
         <% } %>
@@ -28,11 +31,10 @@
         method="post"
         enctype="multipart/form-data"
         type="submit"
-        class="file-input"
       >
         <label class="file-label" for="file"
           ><div class="label-text-wrapper">
-            Drag file here or press to upload
+            Drag file(s) here or press to upload
           </div></label
         >
         <div class="input-label-wrapper">
