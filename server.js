@@ -3,6 +3,7 @@ const path = require("path");
 const fs = require("fs");
 const fileUpload = require("express-fileupload"); // Express framework middleware
 const express = require("express");
+const hostname = "0.0.0.0"; // listen on all ports
 const port = 3005;
 
 const app = express();
@@ -132,5 +133,5 @@ async function handleDownload(req, res) {
 }
 
 app.listen(process.env.PORT || port, () =>
-  console.log(`listening at http://localhost:${port}`)
+  console.log(`listening at http://${hostname}:${port}`)
 );
