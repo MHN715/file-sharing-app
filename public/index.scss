@@ -72,16 +72,17 @@ body {
         justify-content: center;
         align-items: center;
         position: relative;
-        top: 2.7rem;
+        top: 1.5rem;
         .copy-paste-svg {
           // border: 1px solid blue;
           position: absolute;
+          font-size: 0.5rem;
         }
 
         .copied-to-clipboard {
           // border: 1px solid pink;
           position: absolute;
-          top: 3rem;
+          top: 2rem;
         }
       }
     }
