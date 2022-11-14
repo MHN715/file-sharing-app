@@ -3,6 +3,7 @@ const path = require("path");
 const fs = require("fs");
 const fileUpload = require("express-fileupload"); // Express framework middleware
 const express = require("express");
+const port = 3005;
 
 const app = express();
 var zip = require("express-zip");
@@ -77,22 +78,36 @@ app.post("/uploads", (req, res) => {
     });
   }
   // for multiple files, not working yet
-  //  else {
-  //   const randomFolderName = randomizeString("abcdefg1234567") + "-multiple";
-  //   file.forEach((item) => {
-  //     item.mv(
-  //       __dirname + "/uploads/" + `/${randomFolderName}/` + item.name,
-  //       (err) => {
-  //         if (err) {
-  //           return res.status(500).send(err);
-  //         }
-  //       }
-  //     );
-  //   });
-  //   return res.render("index", {
-  //     fileLink: `${req.headers.origin}/uploads/${randomFolderName}/`,
-  //   });
-  // }
+  else {
+    const randomFolderName = randomizeString("abcdefg1234567") + "-multiple";
+
+    file.forEach((item) => {
+      item.mv(
+        __dirname + "/uploads/" + `/${randomFolderName}/` + item.name,
+        (err) => {
+          if (err) {
+            return res.status(500).send(err);
+          }
+        }
+      );
+    });
+
+    let currentDirOfMultipleFiles = "example_dir";
+
+    console.log(randomFolderName);
+    let filenames = fs.readdirSync(
+      __dirname + "/uploads/" + `/${randomFolderName}`
+    );
+
+    console.log("filenames in directory:");
+    filenames.forEach((file) => {
+      console.log("File:", file);
+    });
+
+    return res.render("index", {
+      fileLink: `${req.headers.origin}/uploads/${randomFolderName}`,
+    });
+  }
 });
 
 app.route("/uploads/:folder/:file").get(handleDownload).post(handleDownload);
@@ -116,4 +131,6 @@ async function handleDownload(req, res) {
   res.download(__dirname + `/uploads/${req.params.folder}/${req.params.file}`);
 }
 
-app.listen(process.env.PORT);
+app.listen(process.env.PORT || port, () =>
+  console.log(`listening at http://localhost:${port}`)
+);

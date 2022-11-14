@@ -9,26 +9,21 @@
   </head>
   <body>
     <div class="wrapper">
-      <h1 class="heading">Upload Files</h1>
+      <h1 class="heading">Upload Files(s)</h1>
       <div class="links-result">
-        <!-- <% if (locals.fileLink != null) { %>
-        <div class="testClass" style="margin-bottom: 1rem">
-          Your file is uploaded
-          <a href="<%= locals.fileLink %>"><%= locals.fileLink %></a>
+        <% if (locals.fileLink != null) { %>
+        <div class="generated-link" style="margin-bottom: 1rem">
+          Your file is uploaded:
+          <a class="generated-atag" href="<%= locals.fileLink %>"
+            ><%= locals.fileLink %></a
+          >
+          <div class="svg-wrapper">
+            <%- include ('../public/icons/copypastesvg.svg') %>
+            <span class="copied-to-clipboard"></span>
+          </div>
         </div>
 
-        <% } %> -->
-
-        <div style="display: none" class="testClass">
-          <%= locals.fileLink %>
-        </div>
-
-        <div class="links-results">
-          <div>testtest</div>
-          <div>testtest</div>
-          <div>testtest</div>
-          <div>testtest</div>
-        </div>
+        <% } %>
       </div>
       <form
         id="form"
@@ -36,11 +31,10 @@
         method="post"
         enctype="multipart/form-data"
         type="submit"
-        class="file-input"
       >
         <label class="file-label" for="file"
           ><div class="label-text-wrapper">
-            Drag file here or press to upload
+            Drag file(s) here or press to upload
           </div></label
         >
         <div class="input-label-wrapper">
@@ -50,6 +44,7 @@
             name="file"
             required
             class="file-input"
+            multiple
           />
         </div>
         <!-- <button id="submit" style="grid-column: span 2" type="submit">
