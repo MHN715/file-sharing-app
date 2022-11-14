@@ -133,5 +133,5 @@ async function handleDownload(req, res) {
 }
 
 app.listen(process.env.PORT || port, () =>
-  console.log(`listening at http://${hostname}:${port}`)
+  console.log(`listening at http://${hostname}:${port}/`)
 );
