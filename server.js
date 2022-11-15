@@ -3,11 +3,11 @@ const path = require("path");
 const fs = require("fs");
 const fileUpload = require("express-fileupload"); // Express framework middleware
 const express = require("express");
+var zip = require("express-zip");
 const hostname = "0.0.0.0"; // listen on all ports
 const port = 3005;
 
 const app = express();
-var zip = require("express-zip");
 app.use(express.urlencoded({ extended: true }));
 app.use(
   fileUpload({
@@ -15,6 +15,7 @@ app.use(
   })
 );
 
+app.set("views", __dirname + "/views");
 app.set("view engine", "ejs");
 
 app.get("/", (req, res) => {
@@ -133,5 +134,5 @@ async function handleDownload(req, res) {
 }
 
 app.listen(process.env.PORT || port, () =>
-  console.log(`listening at http://${hostname}:${port}`)
+  console.log(`listening at http://${hostname}:${port}/`)
 );
